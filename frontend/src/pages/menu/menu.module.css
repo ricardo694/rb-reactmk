@@ -1,0 +1,38 @@
+.buttonsContainer{
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #ededed;
+}
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    background-color: white;
+    border-radius: 0.8rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: ease-in-out 0.1s;
+}
+.buttons:hover{
+    background-color:rgb(227, 49, 49);
+    color: white;
+}
+.targetsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0 20px;
+}
+.buttons.active {
+  background-color: rgb(227, 49, 49);
+  color: white;
+
+}

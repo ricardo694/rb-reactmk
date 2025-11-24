@@ -1,0 +1,16 @@
+.container { padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; }
+.btnPrimary { background:#e5232f; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+.table { width:100%; border-collapse:collapse; }
+.table th, .table td { padding:10px; border-bottom:1px solid #eee; text-align:left; vertical-align:middle; }
+.img { width:64px; height:64px; object-fit:cover; border-radius:8px; }
+.btnEdit{ background:#ffd54a; border:none; padding:6px 8px; margin-right:6px; border-radius:6px; cursor:pointer;}
+.btnDelete{ background:#ff7675; border:none; padding:6px 8px; border-radius:6px; cursor:pointer;}
+.modalBackdrop { position:fixed; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; z-index:1000; backdrop-filter: blur(4px); }
+.modal { width:720px; max-width:95%; background:#fff; padding:20px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.12); transform-origin:center; animation:pop 220ms ease; }
+@keyframes pop { from { transform: scale(.98); opacity:0 } to { transform: scale(1); opacity:1 } }
+.form input, .form textarea { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #e8e8e8; }
+.fileRow { display:flex; align-items:center; gap:12px; }
+.preview { width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #eee; }
+.modalButtons { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
+.btnCancel { background:#f1f1f1; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }

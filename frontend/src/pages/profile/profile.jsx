@@ -1,0 +1,129 @@
+import AdminPanelContainer from "../admin/AdminPanelContainer";
+import styles from "./profile.module.css";
+import { useNavigate } from 'react-router-dom';
+export default function Profile({ user, selectedMenu, setSelectedMenu, orders=[] }) {
+    const navigate = useNavigate();
+
+  const handleMenuClick = (menu) => {
+    setSelectedMenu(menu);
+  };
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("¿Seguro que quieres cerrar sesión?");
+    if (!confirmLogout) return;
+    localStorage.removeItem("user");
+    navigate("/"); 
+};
+
+  return (
+    <div className={styles.profileContainer}>
+      
+      <aside className={styles.sidebar}>
+        <h2 className={styles.username}>Hola, {user.Nombre}</h2>
+
+        <ul className={styles.menuList}>
+          <li
+            className={`${styles.menuItem} ${
+              selectedMenu === "pedidos" ? styles.active : ""
+            }`}
+            onClick={() => handleMenuClick("pedidos")}
+          >
+            📦 Pedidos
+          </li>
+
+          <li
+            className={`${styles.menuItem} ${
+              selectedMenu === "cuenta" ? styles.active : ""
+            }`}
+            onClick={() => handleMenuClick("cuenta")}
+          >
+            👤 Cuenta
+          </li>
+
+          <li
+            className={`${styles.menuItemLogout}`}
+            onClick={handleLogout}
+          >
+            🚪 Cerrar sesión
+          </li>
+
+          {user.Tipo_usuario === "administrador" && (
+            <li
+              className={`${styles.menuItem} ${styles.adminMenuItem} ${
+                selectedMenu === "admin" ? styles.active : ""
+              }`}
+              onClick={() => handleMenuClick("admin")}
+            >
+              👑 Panel de Admin
+            </li>
+          )}
+        </ul>
+      </aside>
+
+      <main className={styles.main}>
+        {selectedMenu === "pedidos" && (
+          <div className={styles.ordersSection}>
+            <h3>📦 Tus pedidos</h3>
+
+            {(!orders || orders.length === 0) ? (
+              <div className={styles.noOrdersContainer}>
+                <h3>TODAVÍA NO HAS REALIZADO UN PEDIDO</h3>
+                <p>Realiza tu primera orden</p>
+                <button className={styles.menuButton}>Ver menú</button>
+              </div>
+            ) : (
+              <ul className={styles.ordersList}>
+                {orders.map((order) => (
+                  <li key={order.Id_orden} className={styles.orderItem}>
+                    <p><strong>Orden:</strong> {order.Codigo_orden}</p>
+                    <p><strong>Fecha:</strong> {order.Fecha_orden}</p>
+                    <p><strong>Total pagado:</strong> ${order.Cantidad_pago}</p>
+                    <p><strong>Pago:</strong> {order.Tipo_pago}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
+
+        {selectedMenu === "cuenta" && (
+          <div className={styles.contentSection}>
+            <h3>👤 Mi Cuenta</h3>
+            <div className={styles.accountInfo}>
+              <p>
+                <strong>Nombre:</strong> {user.Nombre} {user.Apellido}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.Correo_electronico}
+              </p>
+              <p>
+                <strong>Teléfono:</strong> {user.Telefono || "No registrado"}
+              </p>
+              <p>
+                <strong>Documento:</strong> {user.Documento || "No registrado"}
+              </p>
+              <p>
+                <strong>Tipo:</strong> {user.Tipo_usuario}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {selectedMenu === "contactos" && (
+          <div className={styles.contentSection}>
+            <h3>📞 Contactos</h3>
+            <p>Información de contacto y soporte</p>
+          </div>
+        )}
+
+        {selectedMenu === "admin" &&
+          user.Tipo_usuario === "administrador" && (
+            <div className={styles.adminPanelContainer}>
+              <AdminPanelContainer />
+            </div>
+          )}
+      </main>
+    </div>
+  );
+}

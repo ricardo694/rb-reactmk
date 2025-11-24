@@ -1,0 +1,13 @@
+.container { padding:20px; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.04); }
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.card { padding:12px; border-radius:10px; background:#fafafa; border:1px solid #eee; }
+.cardActions { margin-top:8px; display:flex; gap:8px; justify-content:flex-end; }
+.btnPrimary { background:#e5232f; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+.btnEdit{ background:#ffd54a; border:none; padding:6px 8px; border-radius:6px; cursor:pointer;}
+.btnDelete{ background:#ff7675; border:none; padding:6px 8px; border-radius:6px; cursor:pointer;}
+.modalBackdrop { position:fixed; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; z-index:1000; backdrop-filter: blur(4px); }
+.modal { width:600px; max-width:95%; background:#fff; padding:20px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.12); }
+.form input { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #e8e8e8; }
+.modalButtons { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
+.btnCancel { background:#f1f1f1; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
