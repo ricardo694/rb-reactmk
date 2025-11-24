@@ -25,29 +25,28 @@ export default function Products({
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  useEffect(() => {
-    if (editingItem) {
-      setForm({
-        Id_producto: editingItem.id,
-        Nombre_producto: editingItem.nombre,
-        Precio_producto: editingItem.precio,
-        Tipo_producto: editingItem.tipo,
-        Descripcion: editingItem.descripcion,
-      });
-      setPreview(editingItem.imageUrl || null);
-    } else {
-      setForm({
-        Id_producto: "",
-        Nombre_producto: "",
-        Precio_producto: "",
-        Tipo_producto: "",
-        Descripcion: "",
-      });
-      setFile(null);
-      setPreview(null);
-    }
-  }, [editingItem, showModal]);
-
+ useEffect(() => {
+  if (editingItem) {
+    setForm({
+      Id_producto: editingItem.Id_producto,
+      Nombre_producto: editingItem.Nombre_producto,
+      Precio_producto: editingItem.Precio_producto,
+      Tipo_producto: editingItem.Tipo_producto,
+      Descripcion: editingItem.Descripcion,
+    });
+    setPreview(editingItem.imageUrl || null);
+  } else {
+    setForm({
+      Id_producto: "",
+      Nombre_producto: "",
+      Precio_producto: "",
+      Tipo_producto: "",
+      Descripcion: "",
+    });
+    setFile(null);
+    setPreview(null);
+  }
+}, [editingItem, showModal]);
   const handleFileChange = (e) => {
     const f = e.target.files[0];
     setFile(f);

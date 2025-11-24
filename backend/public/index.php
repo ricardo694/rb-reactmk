@@ -1,5 +1,11 @@
 <?php
-// 🔧 CONFIGURACIÓN COMPLETA DE CORS - SOLO PHP
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// ============================================
+// 🔧 CONFIGURACIÓN CORS
+// ============================================
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
@@ -7,14 +13,15 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Max-Age: 3600");
 
-// 🎯 MANEJAR PREFLIGHT REQUESTS (OPTIONS) - SIN .htaccess
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    // Respuesta exitosa para preflight
+// 🎯 MANEJAR PREFLIGHT (OPTIONS) ANTES DE TODO EL FLUJO
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
+// ============================================
 // 📁 INCLUSIÓN DE ARCHIVOS NECESARIOS
+// ============================================
 include_once '../app/config/config.php';
 include_once '../app/models/Database.php';
 include_once '../app/models/User.php';
@@ -28,175 +35,185 @@ include_once '../app/controllers/ProductController.php';
 include_once '../app/controllers/OrderController.php';
 include_once '../app/controllers/AdminController.php';
 include_once '../app/controllers/CartController.php';
-// permitir method override desde form-data
-$method = $_SERVER['REQUEST_METHOD'];
-// Si llegó via POST y hay un campo _method, usarlo
+
+// ============================================
+// 🔄 MÉTODO HTTP Y DATA
+// ============================================
+$method = $_SERVER['REQUEST_METHOD'];         // Solo una vez
+$endpoint = $_GET['url'] ?? '';
+$input = json_decode(file_get_contents("php://input"), true);
+
+// permitir override solo desde form-data
 if ($method === 'POST' && isset($_POST['_method'])) {
-    $method = strtoupper($_POST['_method']); // e.g. PUT
+    $method = strtoupper($_POST['_method']);
 }
 
-// 🎯 OBTENER DATOS DE LA PETICIÓN
-$method = $_SERVER['REQUEST_METHOD'];
-$input = json_decode(file_get_contents('php://input'), true);
-$endpoint = $_GET['url'] ?? '';
+// 👇 Fix para PUT y DELETE (php://input puede venir vacío)
+if (($method === 'PUT' || $method === 'DELETE') && empty($input)) {
+    $rawData = file_get_contents("php://input");
+    $input = json_decode($rawData, true);
 
-// 🗄️ CONEXIÓN A LA BASE DE DATOS
+    if (!$input) {
+        parse_str($rawData, $parsed);
+        $input = $parsed;
+    }
+}
+ini_set('display_errors', 0); // Desactiva mostrar errores en pantalla
+ini_set('display_startup_errors', 0);
+error_reporting(E_ALL);
+
+
+// ============================================
+// 🗄️ BASE DE DATOS
+// ============================================
 $database = new Database();
 $db = $database->getConnection();
 
-// 🎮 INSTANCIAR CONTROLADORES
+// ============================================
+// 🎮 CONTROLADORES
+// ============================================
 $authController = new AuthController($db);
 $userController = new UserController($db);
 $productController = new ProductController($db);
 $orderController = new OrderController($db);
 $adminController = new AdminController($db);
-// Instanciar controlador del carrito
 $cartController = new CartController($db);
 
+// ============================================
+// 🚦 ROUTER PRINCIPAL
+// ============================================
+switch (true) {
 
-// 🚦 SISTEMA DE RUTEO
-switch(true) {
     // ============================================
     // 🔐 AUTENTICACIÓN
     // ============================================
-    case $method == 'POST' && $endpoint == 'signup':
+    case $method === 'POST' && $endpoint === 'signup':
         echo $authController->signup($input);
         break;
-        
-    case $method == 'POST' && $endpoint == 'login':
+
+    case $method === 'POST' && $endpoint === 'login':
         echo $authController->login($input);
         break;
-        
+
     // ============================================
     // 👥 USUARIOS
     // ============================================
-    case $method == 'GET' && $endpoint == 'users':
-        $userRole = $_GET['user_role'] ?? 'cliente';
-        echo $userController->getAllUsers($userRole);
+    case $method === 'GET' && $endpoint === 'users':
+        echo $userController->getAllUsers($_GET['user_role'] ?? 'cliente');
         break;
-        
-    case $method == 'GET' && strpos($endpoint, 'profile/') === 0:
-        $userId = str_replace('profile/', '', $endpoint);
-        echo $userController->getProfile($userId);
+
+    case $method === 'GET' && strpos($endpoint, 'profile/') === 0:
+        echo $userController->getProfile(str_replace('profile/', '', $endpoint));
         break;
-        
+
     // ============================================
     // 🍕 PRODUCTOS
     // ============================================
-    case $method == 'GET' && $endpoint == 'products':
+    case $method === 'GET' && $endpoint === 'products':
         echo $productController->getAllProducts();
         break;
-        
-    case $method == 'POST' && $endpoint == 'products':
-        $userRole = $input['user_role'] ?? 'cliente';
-        echo $productController->createProduct($input, $userRole);
+
+    case $method === 'POST' && $endpoint === 'products':
+        echo $productController->createProduct($input, $input['user_role'] ?? 'cliente');
         break;
-        
+
     // ============================================
     // 📋 ÓRDENES
     // ============================================
-    case $method == 'GET' && strpos($endpoint, 'orders/user/') === 0:
-        $userId = str_replace('orders/user/', '', $endpoint);
-        echo $orderController->getUserOrders($userId);
-        break;
-        
-    case $method == 'GET' && $endpoint == 'orders':
-        $userRole = $_GET['user_role'] ?? 'cliente';
-        echo $orderController->getAllOrders($userRole);
+    case $method === 'GET' && strpos($endpoint, 'orders/user/') === 0:
+        echo $orderController->getUserOrders(str_replace('orders/user/', '', $endpoint));
         break;
 
+    case $method === 'GET' && $endpoint === 'orders':
+        echo $orderController->getAllOrders($_GET['user_role'] ?? 'cliente');
+        break;
 
-    case $method == 'POST' && $endpoint == 'orders':
+    case $method === 'POST' && $endpoint === 'orders':
         echo $cartController->createOrder($input);
         break;
 
-    case $method == 'GET' && strpos($endpoint, 'orders/') === 0:
-        $orderId = str_replace('orders/', '', $endpoint);
-        $userId = $_GET['user_id'] ?? 0;
-        echo $cartController->getOrderDetails($orderId, $userId);
+    case $method === 'GET' && strpos($endpoint, 'orders/') === 0:
+        echo $cartController->getOrderDetails(
+            str_replace('orders/', '', $endpoint),
+            $_GET['user_id'] ?? 0
+        );
         break;
-        
+
     // ============================================
     // 👨‍💼 ADMIN - USUARIOS
     // ============================================
-
-    case $method == 'POST' && $endpoint == 'admin/users':
-    $userRole = $input['user_role'] ?? 'cliente';
-    echo $adminController->createUser($input, $userRole);
-    break;
-
-
-    case $method == 'GET' && $endpoint == 'admin/users':
-    $userRole = $_GET['user_role'] ?? 'cliente';
-    echo $adminController->getUsers($userRole);
+    case $method === 'POST' && $endpoint === 'admin/users':
+        echo $adminController->createUser($input, $input['user_role'] ?? 'cliente');
         break;
 
-    case $method == 'PUT' && $endpoint == 'admin/users':
-        $userRole = $input['user_role'] ?? 'cliente';
-        echo $adminController->updateUser($input, $userRole);
-        break;
-        
-    case $method == 'DELETE' && strpos($endpoint, 'admin/users/') === 0:
-        $userId = str_replace('admin/users/', '', $endpoint);
-        $userRole = $input['user_role'] ?? $_GET['user_role'] ?? 'cliente';
-        echo $adminController->deleteUser($userId, $userRole);
+    case $method === 'GET' && $endpoint === 'admin/users':
+        echo $adminController->getUsers($_GET['user_role'] ?? 'cliente');
         break;
 
+    case $method === 'PUT' && $endpoint === 'admin/users':
+        echo $adminController->updateUser($input, $input['user_role'] ?? 'cliente');
+        break;
 
-        
+    case $method === 'DELETE' && strpos($endpoint, 'admin/users/') === 0:
+        echo $adminController->deleteUser(
+            str_replace('admin/users/', '', $endpoint),
+            $_GET['user_role'] ?? 'cliente'
+        );
+        break;
+
     // ============================================
     // 👨‍💼 ADMIN - PRODUCTOS
     // ============================================
-    case $method == 'PUT' && $endpoint == 'admin/products':
-        $userRole = $input['user_role'] ?? 'cliente';
-        echo $adminController->updateProduct($input, $userRole);
+case $method === 'POST' && $endpoint === 'products':
+    // Solo llamamos la función; ella maneja $_POST y $_FILES
+    echo $productController->createProduct();
+    break;
+
+case $method === 'PUT' && $endpoint === 'admin/products':
+    $input = array_merge($_POST, $input ?? []);
+    echo $adminController->updateProduct($input, $input['user_role'] ?? 'cliente');
+    break;
+    case $method === 'DELETE' && strpos($endpoint, 'admin/products/') === 0:
+        echo $adminController->deleteProduct(
+            str_replace('admin/products/', '', $endpoint),
+            $_GET['user_role'] ?? 'cliente'
+        );
         break;
-        
-    case $method == 'DELETE' && strpos($endpoint, 'admin/products/') === 0:
-        $productId = str_replace('admin/products/', '', $endpoint);
-        $userRole = $_GET['user_role'] ?? 'cliente';
-        echo $adminController->deleteProduct($productId, $userRole);
-        break;
-        
+
     // ============================================
     // 👨‍💼 ADMIN - ESTABLECIMIENTOS
     // ============================================
-    case $method == 'GET' && $endpoint == 'admin/establecimientos':
-        $userRole = $_GET['user_role'] ?? 'cliente';
-        echo $adminController->getEstablecimientos($userRole);
+    case $method === 'GET' && $endpoint === 'admin/establecimientos':
+        echo $adminController->getEstablecimientos($_GET['user_role'] ?? 'cliente');
         break;
-        
-    case $method == 'POST' && $endpoint == 'admin/establecimientos':
-        $userRole = $input['user_role'] ?? 'cliente';
-        echo $adminController->createEstablecimiento($input, $userRole);
+
+    case $method === 'POST' && $endpoint === 'admin/establecimientos':
+        echo $adminController->createEstablecimiento($input, $input['user_role'] ?? 'cliente');
         break;
-        
-    case $method == 'PUT' && $endpoint == 'admin/establecimientos':
-        $userRole = $input['user_role'] ?? 'cliente';
-        echo $adminController->updateEstablecimiento($input, $userRole);
+
+    case $method === 'PUT' && $endpoint === 'admin/establecimientos':
+        echo $adminController->updateEstablecimiento($input, $input['user_role'] ?? 'cliente');
         break;
-        
-    case $method == 'DELETE' && strpos($endpoint, 'admin/establecimientos/') === 0:
-        $establecimientoId = str_replace('admin/establecimientos/', '', $endpoint);
-        $userRole = $_GET['user_role'] ?? 'cliente';
-        echo $adminController->deleteEstablecimiento($establecimientoId, $userRole);
+
+    case $method === 'DELETE' && strpos($endpoint, 'admin/establecimientos/') === 0:
+        echo $adminController->deleteEstablecimiento(
+            str_replace('admin/establecimientos/', '', $endpoint),
+            $_GET['user_role'] ?? 'cliente'
+        );
         break;
-        
+
     // ============================================
-    // 👨‍💼 ADMIN - DASHBOARD
+    // 📊 ADMIN - DASHBOARD
     // ============================================
-    case $method == 'GET' && $endpoint == 'admin/dashboard':
-        $userRole = $_GET['user_role'] ?? 'cliente';
-        echo $adminController->getDashboard($userRole);
+    case $method === 'GET' && $endpoint === 'admin/dashboard':
+        echo $adminController->getDashboard($_GET['user_role'] ?? 'cliente');
         break;
-        
+
     // ============================================
     // ❌ ENDPOINT NO ENCONTRADO
     // ============================================
     default:
         http_response_code(404);
-        echo json_encode(array("message" => "Endpoint no encontrado."));
+        echo json_encode(["message" => "Endpoint no encontrado."]);
         break;
-        
 }
-?>

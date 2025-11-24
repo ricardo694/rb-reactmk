@@ -20,7 +20,7 @@ export default function Header () {
                 <ul className={styles.menu}>
                     <li><NavLink to="/home" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link }>Inicio</NavLink></li>
                     <li><NavLink to="/menu" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link }>Menú</NavLink></li>
-                    <li><NavLink to="/sede" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link }>Sedes</NavLink></li>
+                    <li><NavLink to="/sedesContainer" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link }>Sedes</NavLink></li>
                     <li><NavLink to="/nosotros" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link }>Sobre Nosotros</NavLink></li>
                 </ul>
             </nav>

@@ -321,5 +321,47 @@ async deleteProduct(productId, userRole) {
     console.error("Error al eliminar producto:", error);
     return { success: false, message: "Error de conexión con el servidor" };
   }
+},
+// ============================================
+// 🏢 ADMIN - ESTABLECIMIENTOS
+// ============================================
+async getEstablecimientos(userRole) {
+  try {
+    const response = await fetch(`${API_URL}?url=admin/establecimientos&user_role=${userRole}`, fetchConfig('GET'));
+    return await response.json();
+  } catch (error) {
+    console.error("Error al obtener establecimientos:", error);
+    return { success: false, establecimientos: [] };
+  }
+},
+
+async createEstablecimiento(data) {
+  try {
+    const response = await fetch(buildUrl('admin/establecimientos'), fetchConfig('POST', data));
+    return await response.json();
+  } catch (error) {
+    console.error("Error al crear establecimiento:", error);
+    return { success: false };
+  }
+},
+
+async updateEstablecimiento(data) {
+  try {
+    const response = await fetch(buildUrl('admin/establecimientos'), fetchConfig('PUT', data));
+    return await response.json();
+  } catch (error) {
+    console.error("Error al actualizar establecimiento:", error);
+    return { success: false };
+  }
+},
+
+async deleteEstablecimiento(id, userRole) {
+  try {
+    const response = await fetch(`${API_URL}?url=admin/establecimientos/${id}&user_role=${userRole}`, fetchConfig('DELETE'));
+    return await response.json();
+  } catch (error) {
+    console.error("Error al eliminar establecimiento:", error);
+    return { success: false };
+  }
 }
 };

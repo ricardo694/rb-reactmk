@@ -10,6 +10,7 @@
         Mesero VARCHAR(50)
     );
 
+
     CREATE TABLE Orden(
         Id_orden INT(6) AUTO_INCREMENT PRIMARY KEY,
         Fecha_orden date,

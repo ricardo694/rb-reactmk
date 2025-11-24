@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./sedes.module.css";
-//-----Components
+// Components
 import Header from "../../components/header/header";
 import Footer from "../../components/footer/footer";
 import SedesButton from "./SedesButton";
 
-export default function Menu() {
+export default function Sedes({ sedes = [], loading }) {
   return (
     <div className={styles.sedeContainer}>
       <Header />
@@ -21,21 +21,18 @@ export default function Menu() {
           />
 
           <div className={styles.sedesList}>
-            <SedesButton
-              place="FASTIE KIOSCO 3 PORTOALEGRE"
-              adress="Cra. 58 #137B-01"
-              localidad="Bogotá"
-            />
-            <SedesButton
-              place="Colina"
-              adress="Calle 138 #58-36"
-              localidad="Bogotá"
-            />
-            <SedesButton
-              place="Calle 125"
-              adress="Calle 125"
-              localidad="Bogotá"
-            />
+            {loading ? (
+              <p>Cargando sedes...</p>
+            ) : (
+              sedes.map((s) => (
+                <SedesButton
+                  key={s.Id_Establecimiento}
+                  place={s.Nombre_sede}
+                  adress={s.Ciudad} // puedes combinar con dirección real si existe
+                  localidad={s.Responsable} // o Mesero si quieres
+                />
+              ))
+            )}
           </div>
         </div>
 
