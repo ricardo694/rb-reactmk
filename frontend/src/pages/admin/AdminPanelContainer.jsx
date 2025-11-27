@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import AdminPanel from "./AdminPanel";
 import UsersContainer from "./users/UsersContainer.jsx";
 import ProductsContainer from "./products/ProductsContainer.jsx";
-import EstablecimientosContainer from "./establecimientos/EstablecimientosContainer";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminPanelContainer() {

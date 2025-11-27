@@ -11,7 +11,8 @@ export default function AdminPanel({ activeTab, setActiveTab, children }) {
       <div className={styles.tabs}>
         <button className={activeTab === "users" ? styles.active : ""} onClick={() => setActiveTab("users")}>👥 Usuarios</button>
         <button className={activeTab === "products" ? styles.active : ""} onClick={() => setActiveTab("products")}>🍕 Productos</button>
-        <button className={activeTab === "establecimientos" ? styles.active : ""} onClick={() => setActiveTab("establecimientos")}>🏢 Establecimientos</button>
+        {/* <button className={activeTab === "establecimientos" ? styles.active : ""} onClick={() => setActiveTab("establecimientos")}>🏢 Establecimientos</button> */}
+
       </div>
 
       <div className={styles.content}>
