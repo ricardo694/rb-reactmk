@@ -1,12 +1,19 @@
 <?php
 
-class MesaController {
+class MesasController {
+
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
 
     public function getMesas($id) {
-        $mesa = new Mesa();
+
+        $mesa = new Mesa($this->db);
         $data = $mesa->getMesasByEstablecimiento($id);
 
-        echo json_encode([
+        return json_encode([
             "success" => true,
             "mesas" => $data
         ]);

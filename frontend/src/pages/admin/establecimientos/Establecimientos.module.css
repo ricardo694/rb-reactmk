@@ -1,13 +1,524 @@
-.container { padding:20px; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.04); }
-.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
-.card { padding:12px; border-radius:10px; background:#fafafa; border:1px solid #eee; }
-.cardActions { margin-top:8px; display:flex; gap:8px; justify-content:flex-end; }
-.btnPrimary { background:#e5232f; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
-.btnEdit{ background:#ffd54a; border:none; padding:6px 8px; border-radius:6px; cursor:pointer;}
-.btnDelete{ background:#ff7675; border:none; padding:6px 8px; border-radius:6px; cursor:pointer;}
-.modalBackdrop { position:fixed; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; z-index:1000; backdrop-filter: blur(4px); }
-.modal { width:600px; max-width:95%; background:#fff; padding:20px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.12); }
-.form input { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #e8e8e8; }
-.modalButtons { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
-.btnCancel { background:#f1f1f1; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+.sedeContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 5rem;
+}
+
+/* ===== HERO BANNER ===== */
+.heroBanner {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.heroContent {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.heroTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.95;
+}
+
+/* ===== SECCIÓN DE ESTADÍSTICAS ===== */
+.statsSection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.statCard {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    transition: transform 0.3s ease;
+}
+
+.statCard:hover {
+    transform: translateY(-5px);
+}
+
+.statIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #764ba2;
+    margin-bottom: 0.5rem;
+}
+
+.statLabel {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.content {
+    display: flex;
+    flex: 1;
+    width: 90%;
+    max-width: 1400px;
+    background-color: #ededed;
+    padding: 2rem;
+    border-radius: 20px;
+    margin: 1.5rem 0;
+    gap: 2rem;
+}
+
+/* ===== COLUMNA IZQUIERDA ===== */
+.locations {
+    width: 35%;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 700px;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Búsqueda mejorada */
+.searchContainer {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+}
+
+.search {
+    width: 100%;
+    padding: 12px 45px 12px 45px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search:focus {
+    outline: none;
+    border-color: #764ba2;
+}
+
+.clearButton {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #999;
+    padding: 5px;
+}
+
+.clearButton:hover {
+    color: #333;
+}
+
+/* Contador de resultados */
+.resultsCount {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.resultsCount p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+/* Lista de sedes */
+.sedesList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.selectedSede {
+    background-color: #f0e7ff;
+    border-radius: 8px;
+}
+
+/* Loading */
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    gap: 1rem;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #764ba2;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Sin resultados */
+.noResults {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #666;
+}
+
+.noResultsIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.noResults h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.noResults p {
+    font-size: 1rem;
+    color: #888;
+}
+
+/* ===== COLUMNA DERECHA (MAPA) ===== */
+.mapSection {
+    width: 65%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Información de sede seleccionada */
+.sedeInfo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1rem;
+}
+
+.sedeInfo h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.sedeInfo p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.directionsButton {
+    background-color: white;
+    color: #764ba2;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.directionsButton:hover {
+    transform: scale(1.05);
+}
+
+.map {
+    flex: 1;
+    width: 100%;
+    min-height: 500px;
+    border: none;
+}
+
+.mapFooter {
+    padding: 1rem;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+.openMapLink {
+    color: #764ba2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.openMapLink:hover {
+    color: #667eea;
+}
+
+/* ===== BOTONES DE SEDES ===== */
+.containerButtons {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.containerButtons:hover {
+    background-color: #f9f9f9;
+    transform: translateY(-2px);
+}
+
+.place {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    margin: 0 0 5px 0;
+}
+
+.adress {
+    font-size: 14px;
+    color: #555;
+    margin: 0 0 2px 0;
+}
+
+.localidad {
+    font-size: 13px;
+    color: #777;
+    margin: 0 0 10px 0;
+}
+
+.button {
+    background-color: #ffbc0d;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    color: #000;
+    width: 100%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: #f1b000;
+    transform: scale(1.02);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+/* ===== SECCIÓN DE SERVICIOS ===== */
+.servicesSection {
+    width: 90%;
+    max-width: 1400px;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.servicesTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    color: #333;
+}
+
+.servicesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.serviceCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.serviceCard:hover {
+    transform: translateY(-5px);
+}
+
+.serviceIcon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.serviceCard h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.serviceCard p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* ===== CALL TO ACTION ===== */
+.ctaSection {
+    width: 100%;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 4rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.ctaTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.ctaText {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.ctaButtonPrimary {
+    background-color: white;
+    color: #f5576c;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.ctaButtonPrimary:hover {
+    transform: scale(1.05);
+}
+
+.ctaButtonSecondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ctaButtonSecondary:hover {
+    background-color: white;
+    color: #f5576c;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .content {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .locations {
+        width: 100%;
+        max-height: 400px;
+    }
+
+    .mapSection {
+        width: 100%;
+        min-height: 500px;
+    }
+
+    .statsSection {
+        gap: 1rem;
+    }
+
+    .statCard {
+        min-width: 150px;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .heroTitle {
+        font-size: 2rem;
+    }
+
+    .heroSubtitle {
+        font-size: 1rem;
+    }
+
+    .servicesGrid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .ctaTitle {
+        font-size: 1.8rem;
+    }
+
+    .ctaText {
+        font-size: 1rem;
+    }
+
+    .statNumber {
+        font-size: 2rem;
+    }
+}

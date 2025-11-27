@@ -53,17 +53,17 @@ export default function EstablecimientosContainer() {
   };
 
   return (
-    <Establecimientos
-      stores={stores}
-      loading={loading}
-      showModal={showModal}
-      openCreate={openCreate}
-      openEdit={openEdit}
-      closeModal={closeModal}
-      editingItem={editingItem}
-      onCreate={handleCreate}
-      onUpdate={handleUpdate}
-      onDelete={handleDelete}
-    />
+  <Establecimientos
+    sedes={stores}   // ✅ renombrado
+    loading={loading}
+    showModal={showModal}
+    openCreate={openCreate}
+    openEdit={openEdit}
+    closeModal={closeModal}
+    editingItem={editingItem}
+    onCreate={handleCreate}
+    onUpdate={handleUpdate}
+    onDelete={handleDelete}
+  />
   );
 }

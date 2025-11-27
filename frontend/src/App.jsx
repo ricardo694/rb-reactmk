@@ -12,7 +12,8 @@ import SignUpContainer from "./pages/signUp/signUpContainer";
 import Sobre from "./pages/sobre/Sobre";
 import LoginContainer from "./pages/login/loginContainer";
 import SedesContainer from "./pages/sedes/SedesContrainer";
-import Reserva from "./pages/reserva/Reserva";
+import ReservaContainer from "./pages/reserva/ReservaContainer";
+
 function App() {
   return (
     <AuthProvider>
@@ -28,7 +29,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/nosotros" element={<Sobre />} />
               <Route path="/cart" element={<CartContainer />} />
-              <Route path="/reservas" element={<Reserva />} />
+              <Route path="/reservas" element={<ReservaContainer />} />
             </Routes>
           </BrowserRouter>
         </ProductProvider>

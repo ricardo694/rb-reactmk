@@ -21,7 +21,7 @@
     );
 
     CREATE TABLE Pagos(
-        Id_pagos INT(6)PRIMARY KEY AUTO_INCREMENT,
+        Id_pagos INT(6) AUTO_INCREMENT PRIMARY KEY ,
         Tipo_pago VARCHAR(15),
         Cantidad_pago INT(10)
     );
@@ -140,6 +140,32 @@ VALUES
 ('Mango', 3620, 'Postre', 'El mango es una fruta tropical...', '5-p.png'),
 ('Helado', 1990, 'Postre', 'El helado de chocolate...', '6-p.png');
 
+INSERT INTO Establecimiento (Nombre_sede, Ciudad, Tipo_de_mesa, Responsable, Mesero)
+VALUES ('Sede Principal', 'Bogotá', 'Mixta', 1, 'Carlos Pérez');
+
+INSERT INTO Establecimiento (Nombre_sede, Ciudad, Tipo_de_mesa, Responsable, Mesero)
+VALUES ('Sede Norte', 'Medellín', 'Redonda', 2, 'Laura Gómez');
+
+INSERT INTO Establecimiento (Nombre_sede, Ciudad, Tipo_de_mesa, Responsable, Mesero)
+VALUES ('Sede Sur', 'Cali', 'Cuadrada', 3, 'Andrés Ramírez');
+
+INSERT INTO Establecimiento (Nombre_sede, Ciudad, Tipo_de_mesa, Responsable, Mesero)
+VALUES ('Sede Centro', 'Bogotá', 'Rectangular', 4, 'Mariana Torres');
+
+INSERT INTO Establecimiento (Nombre_sede, Ciudad, Tipo_de_mesa, Responsable, Mesero)
+VALUES ('Sede Este', 'Barranquilla', 'Mixta', 5, 'Jorge Martínez');
+
+INSERT INTO Mesa (Id_establecimiento, Numero_mesa, Capacidad, Estado) VALUES
+(1, 1, 2, 'disponible'),
+(1, 2, 2, 'disponible'),
+(1, 3, 4, 'disponible'),
+(1, 4, 4, 'disponible'),
+(1, 5, 6, 'disponible'),
+(1, 6, 6, 'disponible'),
+(1, 7, 8, 'disponible'),
+(1, 8, 8, 'disponible'),
+(1, 9, 10, 'disponible'),
+(1, 10, 12, 'disponible');
 INSERT INTO Usuario (Nombre, Apellido, Documento, Telefono, Correo_electronico, Contrasena, Tipo_usuario) 
 VALUES ('Admin', 'Principal', 123456789, '3001234567', 'admin@restaurante.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'administrador');SET FOREIGN_KEY_CHECKS = 0;
 SET FOREIGN_KEY_CHECKS = 1;

@@ -41,14 +41,14 @@
 
 .input:focus,
 .select:focus {
-  border-color: #0077ff;
+  border-color:  rgb(227, 49, 49);
   outline: none;
 }
 
 /* Botón */
 .button {
   padding: 12px;
-  background-color: #0077ff;
+  background-color: rgb(227, 49, 49);
   color: #ffffff;
   font-size: 18px;
   font-weight: bold;
@@ -59,7 +59,7 @@
 }
 
 .button:hover {
-  background-color: #005fcc;
+  background-color: rgb(227, 49, 49);
 }
 
 /* Mensaje de error o éxito */

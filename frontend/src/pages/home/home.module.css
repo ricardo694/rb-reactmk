@@ -1,19 +1,456 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-
-.title{
+.title {
     color: rgb(0, 0, 0);
     font-size: 40px;
     font-weight: bold;
     text-align: center;
     width: 100%;
-    padding: 4rem;
+    padding: 4rem 2rem 2rem 2rem;
     font-family: "Open Sans", sans-serif;
 }
 
-.targetsContainer{
+/* Sección de Bienvenida */
+.welcomeSection {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgb(227, 49, 49);
+    color: white;
+}
+
+.welcomeTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-family: "Open Sans", sans-serif;
+}
+
+.welcomeText {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+    font-family: "Open Sans", sans-serif;
+}
+
+.heroButton {
+    background-color: white;
+    color:rgb(227, 49, 49);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Open Sans", sans-serif;
+}
+
+.heroButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor de Cards de Productos */
+.targetsContainer {
     display: flex;
-    flex-wrap:wrap ;
-    margin-bottom: 8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
     margin-top: 3rem;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Cards de Productos */
+.productCard {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+}
+
+.productCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.productImage {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.productTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.productDescription {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.productPrice {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: rgb(227, 49, 49);
+    margin-top: 1rem;
+}
+
+/* Sección de Combos */
+.combosSection {
+    background-color: #fff5f8;
+    padding: 4rem 2rem;
+    margin-bottom: 0;
+}
+
+.combosSubtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: -2rem;
+    margin-bottom: 3rem;
+    font-family: "Open Sans", sans-serif;
+}
+
+.combosContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.comboCard {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 320px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-family: "Open Sans", sans-serif;
+    transition: transform 0.3s ease;
+}
+
+.comboCard:hover {
+    transform: translateY(-5px);
+}
+
+.comboBadge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.comboTitle {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+
+.comboList {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.comboList li {
+    padding: 0.5rem 0;
+    color: #555;
+    font-size: 1rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.comboList li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.comboPrice {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: rgb(227, 49, 49);
+    margin-bottom: 0.5rem;
+}
+
+.comboSavings {
+    font-size: 1rem;
+    color: #4CAF50;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.comboButton {
+    width: 100%;
+    background: rgb(227, 49, 49);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Open Sans", sans-serif;
+}
+
+.comboButton:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Sección Por Qué Elegirnos */
+.whyUsSection {
+    background-color: #f8f9fa;
+    padding: 4rem 2rem;
+    margin-bottom: 0;
+}
+
+.featuresContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.featureItem {
+    text-align: center;
+    max-width: 250px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.featureIcon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.featureItem h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.featureItem p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Sección de Testimonios */
+.testimonialsSection {
+    background-color: white;
+    padding: 4rem 2rem;
+}
+
+.testimonialsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.testimonialCard {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Open Sans", sans-serif;
+}
+
+.stars {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #FFD700;
+}
+
+.testimonialText {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.testimonialAuthor {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Sección de Horarios */
+.scheduleSection {
+    background-color: #f8f9fa;
+    padding: 4rem 2rem;
+}
+
+.scheduleContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.scheduleCard {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Open Sans", sans-serif;
+}
+
+.scheduleCard h4 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.scheduleCard p {
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 600;
+}
+
+/* Call to Action Section */
+.ctaSection {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: rgb(227, 49, 49);
+    color: white;
+    margin-bottom: 0;
+    font-family: "Open Sans", sans-serif;
+}
+
+.ctaTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.ctaText {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.ctaButton {
+    background-color: white;
+    color: #f5576c;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Open Sans", sans-serif;
+}
+
+.ctaButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcomeTitle {
+        font-size: 2rem;
+    }
+
+    .welcomeText {
+        font-size: 1rem;
+    }
+
+    .title {
+        font-size: 2rem;
+        padding: 2rem 1rem 1rem 1rem;
+    }
+
+    .productCard {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .comboCard {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .testimonialCard {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .scheduleCard {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .featuresContainer {
+        gap: 2rem;
+    }
+
+    .ctaTitle {
+        font-size: 1.8rem;
+    }
+
+    .ctaText {
+        font-size: 1rem;
+    }
+
+    .targetsContainer {
+        padding: 0 1rem;
+    }
+
+    .comboTitle {
+        font-size: 1.5rem;
+    }
+
+    .comboPrice {
+        font-size: 2rem;
+    }
 }

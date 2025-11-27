@@ -14,6 +14,7 @@ export default function ProfileContainer() {
   const [user, setUser] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState("pedidos");
   const [orders, setOrders] = useState([]);
+  const [reservations, setReservations] = useState([]); // <-- Estado para reservas
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
@@ -23,8 +24,14 @@ export default function ProfileContainer() {
       return;
     }
 
+    // Traer pedidos
     apiService.getUserOrders(userData.Id_usuario).then((data) => {
       setOrders(data);
+    });
+
+    // Traer reservas ✅ Usamos el nombre correcto de la función
+    apiService.getReservasByUser(userData.Id_usuario).then((data) => {
+      setReservations(data.reservas || []); // <-- Extraemos el array 'reservas'
     });
 
     setUser(userData);
@@ -41,6 +48,7 @@ export default function ProfileContainer() {
         selectedMenu={selectedMenu}
         setSelectedMenu={setSelectedMenu}
         orders={orders}
+        reservations={reservations} // <-- Pasamos reservas al perfil
       />
 
       <Footer />
