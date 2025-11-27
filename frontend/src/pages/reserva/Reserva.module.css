@@ -1,0 +1,86 @@
+.reservaContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+/* Título */
+.title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Etiquetas */
+.label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Inputs */
+.input,
+.select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #0077ff;
+  outline: none;
+}
+
+/* Botón */
+.button {
+  padding: 12px;
+  background-color: #0077ff;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background-color: #005fcc;
+}
+
+/* Mensaje de error o éxito */
+.message {
+  margin-top: 15px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .reservaContainer {
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .button {
+    font-size: 16px;
+  }
+}

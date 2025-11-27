@@ -23,7 +23,7 @@ const CartContainer = () => {
   const handleCheckout = async (tipoPago) => {
   if (!user) {
     alert('Debes iniciar sesión para realizar una orden');
-    navigate('/');
+    navigate('/'); 
     return;
   }
 
@@ -40,7 +40,11 @@ const orderData = {
     Id_producto: item.Id_producto,
     cantidad: item.cantidad,
     precio: item.Precio_producto
-  }))
+  })),
+  domicilio: {
+      direccion: user.direccion || null,
+      solicitar: tipoPago === "Domicilio"
+    }
 };
 
   try {
@@ -57,6 +61,8 @@ const orderData = {
     console.error('Checkout error:', error);
   }
 };
+
+
 
 
   return (

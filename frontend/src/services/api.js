@@ -209,6 +209,63 @@ async getUserOrders(userId) {
   }
 },
 
+async getMesas(establecimientoId) {
+  try {
+    const response = await fetch(
+      buildUrl(`mesas/${establecimientoId}`),
+      fetchConfig('GET')
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al obtener mesas:", error);
+    return { success: false, mesas: [] };
+  }
+},
+async getReservasByUser(userId) {
+  try {
+    const response = await fetch(
+      buildUrl(`reservas/user/${userId}`),
+      fetchConfig('GET')
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al obtener reservas:", error);
+    return { success: false, reservas: [] };
+  }
+},
+
+async cancelReserva(reservaId, userId) {
+  try {
+    const response = await fetch(
+      buildUrl(`reserva/cancel/${reservaId}?user_id=${userId}`),
+      fetchConfig('PUT')
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al cancelar reserva:", error);
+    return { success: false };
+  }
+},
+
+
+// Crear reserva (USUARIO)
+async createReservaUser(data) {
+  try {
+    const response = await fetch(
+      buildUrl('reserva/create'),
+      fetchConfig('POST', data)
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al crear reserva del usuario:", error);
+    return { success: false };
+  }
+},
+
 
 
 
@@ -319,6 +376,64 @@ async deleteProduct(productId, userRole) {
     return result;
   } catch (error) {
     console.error("Error al eliminar producto:", error);
+    return { success: false, message: "Error de conexión con el servidor" };
+  }
+},
+// ============================================
+// 🏢 ADMIN - RESERVAS
+// ============================================
+async getAllReservas(userRole) {
+  try {
+    const response = await fetch(
+      `${API_URL}?url=admin/reservas&user_role=${userRole}`,
+      fetchConfig('GET')
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al obtener todas las reservas:", error);
+    return { success: false, reservas: [] };
+  }
+},
+
+async updateReserva(data) {
+  try {
+    const response = await fetch(
+      buildUrl('admin/reserva'),
+      fetchConfig('PUT', data)
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al actualizar reserva:", error);
+    return { success: false };
+  }
+},
+
+async deleteReserva(reservaId, userRole) {
+  try {
+    const response = await fetch(
+      `${API_URL}?url=admin/reserva/${reservaId}&user_role=${userRole}`,
+      fetchConfig('DELETE')
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al eliminar reserva:", error);
+    return { success: false };
+  }
+},
+
+async createReservaAdmin(data) {
+  try {
+    const response = await fetch(
+      buildUrl('reserva'),
+      fetchConfig('POST', data)
+    );
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Error al crear reserva:", error);
     return { success: false, message: "Error de conexión con el servidor" };
   }
 },

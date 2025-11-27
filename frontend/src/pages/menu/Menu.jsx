@@ -4,10 +4,12 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Card  from '../../components/card/card';
 import { useProducts } from '../../hooks/useProducts';
-
+import { useNavigate } from "react-router-dom";
 const Menu = () => {
   const { products, loading, error } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const navigate = useNavigate();
+
   console.log("PRODUCTOS:", products);
 
   // Agrupar productos por categoría
@@ -53,6 +55,11 @@ const Menu = () => {
         >
           <span>Todos</span>
         </button>
+
+        <button onClick={() => navigate("/reservas")}>
+          Reservar mesa
+        </button>
+
         {categories.map((category) => (
           <button 
             key={category}
@@ -61,6 +68,8 @@ const Menu = () => {
           >
             <span>{category}</span>
           </button>
+
+          
         ))}
       </div>
 

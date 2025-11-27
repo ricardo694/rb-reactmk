@@ -67,6 +67,44 @@
         Foreign Key (Id_orden) REFERENCES Orden(Id_orden),
         Foreign Key (Id_producto) REFERENCES producto(Id_producto)
     );
+
+    CREATE TABLE Domicilio (
+    Id_domicilio INT(6) AUTO_INCREMENT PRIMARY KEY,
+    Id_orden INT(6),
+    Id_usuario INT(6),
+    Direccion_entrega VARCHAR(100),
+    Estado VARCHAR(20) DEFAULT 'pendiente',   -- pendiente, en camino, entregado
+    Fecha_solicitud DATE,
+    Hora_solicitud TIME,
+
+    FOREIGN KEY (Id_orden) REFERENCES Orden(Id_orden),
+    FOREIGN KEY (Id_usuario) REFERENCES Usuario(Id_usuario)
+);
+CREATE TABLE Mesa (
+    Id_mesa INT(6) AUTO_INCREMENT PRIMARY KEY,
+    Id_establecimiento INT(6),
+    Numero_mesa INT(4),
+    Capacidad INT(4),
+    Estado VARCHAR(20) DEFAULT 'disponible',   -- disponible, ocupada, inactiva
+
+    FOREIGN KEY (Id_establecimiento) REFERENCES Establecimiento(Id_establecimiento)
+);
+
+CREATE TABLE Reserva (
+    Id_reserva INT(6) AUTO_INCREMENT PRIMARY KEY,
+    Id_usuario INT(6),
+    Id_establecimiento INT(6),
+    Id_mesa INT(6),
+    Fecha_reserva DATE,
+    Hora_reserva TIME,
+    Numero_personas INT(4),
+    Estado VARCHAR(20) DEFAULT 'activa',   -- activa, cancelada, cumplida
+
+    FOREIGN KEY (Id_usuario) REFERENCES Usuario(Id_usuario),
+    FOREIGN KEY (Id_establecimiento) REFERENCES Establecimiento(Id_establecimiento),
+    FOREIGN KEY (Id_mesa) REFERENCES Mesa(Id_mesa)
+);
+
      /*RELACIONES */
       /*------------------ USUARIO - ORDEN -------------------*/
     ALTER TABLE Orden ADD CONSTRAINT FK_ID1 FOREIGN KEY (Id_usuario) REFERENCES Usuario (Id_usuario);

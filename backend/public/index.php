@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 // ============================================
 // 🔧 CONFIGURACIÓN CORS
 // ============================================
@@ -13,7 +14,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Max-Age: 3600");
 
-// 🎯 MANEJAR PREFLIGHT (OPTIONS) ANTES DE TODO EL FLUJO
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -29,26 +29,32 @@ include_once '../app/models/Product.php';
 include_once '../app/models/Order.php';
 include_once '../app/models/Establecimiento.php';
 include_once '../app/models/Pagos.php';
+include_once '../app/models/Mesa.php';
+include_once '../app/models/Reserva.php';
+
 include_once '../app/controllers/AuthController.php';
 include_once '../app/controllers/UserController.php';
 include_once '../app/controllers/ProductController.php';
 include_once '../app/controllers/OrderController.php';
 include_once '../app/controllers/AdminController.php';
 include_once '../app/controllers/CartController.php';
+include_once '../app/controllers/MesaController.php';
+include_once '../app/controllers/ReservaController.php';
 
 // ============================================
-// 🔄 MÉTODO HTTP Y DATA
+// 🔄 MÉTODO HTTP Y BODY
 // ============================================
-$method = $_SERVER['REQUEST_METHOD'];         // Solo una vez
+$method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['url'] ?? '';
+$endpoint = rtrim($endpoint, "/"); 
 $input = json_decode(file_get_contents("php://input"), true);
 
-// permitir override solo desde form-data
+// Allow method override para form-data
 if ($method === 'POST' && isset($_POST['_method'])) {
     $method = strtoupper($_POST['_method']);
 }
 
-// 👇 Fix para PUT y DELETE (php://input puede venir vacío)
+// Fix PUT y DELETE
 if (($method === 'PUT' || $method === 'DELETE') && empty($input)) {
     $rawData = file_get_contents("php://input");
     $input = json_decode($rawData, true);
@@ -58,10 +64,6 @@ if (($method === 'PUT' || $method === 'DELETE') && empty($input)) {
         $input = $parsed;
     }
 }
-ini_set('display_errors', 0); // Desactiva mostrar errores en pantalla
-ini_set('display_startup_errors', 0);
-error_reporting(E_ALL);
-
 
 // ============================================
 // 🗄️ BASE DE DATOS
@@ -78,6 +80,8 @@ $productController = new ProductController($db);
 $orderController = new OrderController($db);
 $adminController = new AdminController($db);
 $cartController = new CartController($db);
+$mesaController = new MesaController($db);
+$reservaController = new ReservaController($db);   // ✅ AHORA SÍ CREADO
 
 // ============================================
 // 🚦 ROUTER PRINCIPAL
@@ -118,7 +122,7 @@ switch (true) {
         break;
 
     // ============================================
-    // 📋 ÓRDENES
+    // 📦 ÓRDENES
     // ============================================
     case $method === 'GET' && strpos($endpoint, 'orders/user/') === 0:
         echo $orderController->getUserOrders(str_replace('orders/user/', '', $endpoint));
@@ -140,7 +144,7 @@ switch (true) {
         break;
 
     // ============================================
-    // 👨‍💼 ADMIN - USUARIOS
+    // 🧑‍💼 ADMIN - USUARIOS
     // ============================================
     case $method === 'POST' && $endpoint === 'admin/users':
         echo $adminController->createUser($input, $input['user_role'] ?? 'cliente');
@@ -155,58 +159,22 @@ switch (true) {
         break;
 
     case $method === 'DELETE' && strpos($endpoint, 'admin/users/') === 0:
-        echo $adminController->deleteUser(
-            str_replace('admin/users/', '', $endpoint),
-            $_GET['user_role'] ?? 'cliente'
-        );
+        echo $adminController->deleteUser(str_replace('admin/users/', '', $endpoint));
         break;
 
     // ============================================
-    // 👨‍💼 ADMIN - PRODUCTOS
+    // 🍽 MESAS
     // ============================================
-case $method === 'POST' && $endpoint === 'products':
-    // Solo llamamos la función; ella maneja $_POST y $_FILES
-    echo $productController->createProduct();
-    break;
-
-case $method === 'PUT' && $endpoint === 'admin/products':
-    $input = array_merge($_POST, $input ?? []);
-    echo $adminController->updateProduct($input, $input['user_role'] ?? 'cliente');
-    break;
-    case $method === 'DELETE' && strpos($endpoint, 'admin/products/') === 0:
-        echo $adminController->deleteProduct(
-            str_replace('admin/products/', '', $endpoint),
-            $_GET['user_role'] ?? 'cliente'
-        );
+    case $method === 'GET' && strpos($endpoint, 'mesas/') === 0:
+        $id = str_replace('mesas/', '', $endpoint);
+        echo $mesaController->getMesas($id);
         break;
 
     // ============================================
-    // 👨‍💼 ADMIN - ESTABLECIMIENTOS
+    // 🍽 RESERVAS
     // ============================================
-    case $method === 'GET' && $endpoint === 'admin/establecimientos':
-        echo $adminController->getEstablecimientos($_GET['user_role'] ?? 'cliente');
-        break;
-
-    case $method === 'POST' && $endpoint === 'admin/establecimientos':
-        echo $adminController->createEstablecimiento($input, $input['user_role'] ?? 'cliente');
-        break;
-
-    case $method === 'PUT' && $endpoint === 'admin/establecimientos':
-        echo $adminController->updateEstablecimiento($input, $input['user_role'] ?? 'cliente');
-        break;
-
-    case $method === 'DELETE' && strpos($endpoint, 'admin/establecimientos/') === 0:
-        echo $adminController->deleteEstablecimiento(
-            str_replace('admin/establecimientos/', '', $endpoint),
-            $_GET['user_role'] ?? 'cliente'
-        );
-        break;
-
-    // ============================================
-    // 📊 ADMIN - DASHBOARD
-    // ============================================
-    case $method === 'GET' && $endpoint === 'admin/dashboard':
-        echo $adminController->getDashboard($_GET['user_role'] ?? 'cliente');
+    case $method === 'POST' && $endpoint === 'reserva/create':
+        $reservaController->create($input);   // ❗ SIN echo (evita doble salida)
         break;
 
     // ============================================

@@ -12,7 +12,7 @@ import SignUpContainer from "./pages/signUp/signUpContainer";
 import Sobre from "./pages/sobre/Sobre";
 import LoginContainer from "./pages/login/loginContainer";
 import SedesContainer from "./pages/sedes/SedesContrainer";
-
+import Reserva from "./pages/reserva/Reserva";
 function App() {
   return (
     <AuthProvider>
@@ -28,6 +28,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/nosotros" element={<Sobre />} />
               <Route path="/cart" element={<CartContainer />} />
+              <Route path="/reservas" element={<Reserva />} />
             </Routes>
           </BrowserRouter>
         </ProductProvider>

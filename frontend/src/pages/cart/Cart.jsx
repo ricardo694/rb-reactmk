@@ -135,6 +135,16 @@ const Cart = ({
                   />
                   <span>Tarjeta</span>
                 </label>
+
+                <label className="payment-option">
+                  <input
+                    type="radio"
+                    value="Domicilio"
+                    checked={selectedPayment === 'Domicilio'}
+                    onChange={(e) => setSelectedPayment(e.target.value)}
+                  />
+                  <span>Domicilio a mi casa</span>
+                </label>
               </div>
             </div>
 
